@@ -108,5 +108,45 @@ namespace Assignment1
 			}
 
 		}
+		/*****************************************************************
+		 * void PrintItems()
+		 * this will loop through the items dictionary and print out each
+		 * entry using the ToString overwrite we did within that file
+		 ****************************************************************/
+		public void PrintItems()
+        {
+			foreach(KeyValuePair<uint, Item> item in items)
+            {
+				Console.WriteLine(item.ToString());
+            }
+			Console.WriteLine("End of items");
+        }
+		/****************************************************************
+		* void PrintGuild() 
+		* This will loop through each guild entry and print out the string
+		* holding the guild name.
+		*****************************************************************/
+		public void PrintGuild()
+        {
+			foreach(KeyValuePair<uint, string> guild in guilds)
+            {
+				Console.WriteLine(guild.Value);
+            }
+			Console.WriteLine("End of Guilds");
+        }
+		/****************************************************************
+		 * Void PrintPlayer()
+		 * this will loop through each player entry in the dictionary
+		 * using the ToString override within that class.
+		 ****************************************************************/
+		public void PrintPlayer()
+        {
+			foreach(KeyValuePair<uint, Player> character in characters)
+            {
+				Console.WriteLine(character.ToString());
+            }
+			Console.WriteLine("End of Guilds");
+
+        }
 	}
 }
