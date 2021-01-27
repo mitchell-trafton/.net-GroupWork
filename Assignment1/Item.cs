@@ -6,7 +6,7 @@ namespace Woc_item
     {
         //constants
         // private attributes
-        private int id; //identifer for the item 
+        private uint id; //identifer for the item 
         private string name; // item name
         private itemType type; //where the item can be placed
         private uint ilvl;//
@@ -88,7 +88,7 @@ namespace Woc_item
             requirement = 0;
             flavor = "N/A";
         }
-        public Item(int tid, string tname, int ttype, uint tlvl, uint tprimary, uint tstamina, uint trequirement, string tflavor)
+        public Item(uint tid, string tname, int ttype, uint tlvl, uint tprimary, uint tstamina, uint trequirement, string tflavor)
         {
             id = tid;
             name = tname;
