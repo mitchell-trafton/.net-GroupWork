@@ -15,7 +15,7 @@ namespace Woc_item
         private uint requirement;
         private string flavor; // flavor text
         // public properties
-        public int Id
+        public uint Id
         {
             get { return id; }
 
