@@ -88,11 +88,11 @@ namespace Woc_item
             requirement = 0;
             flavor = "N/A";
         }
-        public Item(int tid, string tname, itemType ttype, uint tlvl, uint tprimary, uint tstamina, uint trequirement, string tflavor)
+        public Item(int tid, string tname, int ttype, uint tlvl, uint tprimary, uint tstamina, uint trequirement, string tflavor)
         {
             id = tid;
             name = tname;
-            type = ttype;
+            type = (itemType)ttype;
             ilvl = tlvl;
             primary = tprimary;
             stamina = tstamina;
