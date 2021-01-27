@@ -2,11 +2,9 @@
 using System.Text;
 using System;
 
-using Woc_consts;
-
 namespace Assignment1
 {
-    class Player:IComparable
+    public class Player:IComparable
     {
         ///constructors
         public Player()
@@ -22,8 +20,6 @@ namespace Assignment1
             level = 0;
             exp = 0;
             guildID = null;
-            gear = null;
-            inventory = null;
         }
 
         public Player(uint ID = 0, string Name = "", Race? Race = null, uint Level = 0, uint Exp = 0,
@@ -42,20 +38,24 @@ namespace Assignment1
             level = Level;
             exp = Exp;
             guildID = GuildID;
-            gear = Gear;
+            if (Gear == null) gear = new uint[Constants.GEAR_SLOTS];
             if (Inventory != null) inventory = new List<uint>(Inventory);
             else inventory = null;
         }
 
         ///prvate attributes
-        private readonly uint id;
-        private readonly string name;
-        private readonly Race? race;
-        private uint level;
-        private uint exp;
-        private uint? guildID;
+        //player data
+        private readonly uint id; //player's ID
+        private readonly string name; //player's name
+        private readonly Race? race; //player's race
+        private uint level; //player's current level
+        private uint exp; //current experience amount
+        private uint? guildID; //ID of player's current guild
         private uint[] gear = new uint[Constants.GEAR_SLOTS];
-        private List<uint>? inventory;
+        private List<uint> inventory = new List<uint>();
+        //other data
+        private bool equipRingFirstSlot = true;//true when next ring should be equiped into the first ring slot, false for second slot
+        private bool equipTrinketFirstSlot = true;//true when next trinket should be equiped into the first trinket slot, false for second slot
 
         ///public attributes
         public uint ID
@@ -153,7 +153,102 @@ namespace Assignment1
 
         public void EquipGear(uint newGearID)
         {
+            /*****************************************************************************
+             * Equips a piece of gear into the appropriate gear slot. 
+             * 
+             * Will throw an exception if the gear's ID is invalid, 
+             * the player's level isn't high enough, or the gear's type is invalid.
+             * 
+             * Parameters:
+             * @newGearID = ID of gear that can be found in the global items dictionary.
+             ***************************************************************************/
+            if (Globals.items.ContainsKey(newGearID))
+            {
+                if (level >= Globals.items[newGearID].Requirement)
+                {
+                    switch (Globals.items[newGearID].Type)
+                    {
+                        case itemType.Helmet:
+                            gear[0] = Globals.items[newGearID].Id;
+                            break;
 
+                        case itemType.Neck:
+                            gear[1] = Globals.items[newGearID].Id;
+                            break;
+
+                        case itemType.Shoulders:
+                            gear[2] = Globals.items[newGearID].Id;
+                            break;
+
+                        case itemType.Back:
+                            gear[3] = Globals.items[newGearID].Id;
+                            break;
+
+                        case itemType.Chest:
+                            gear[4] = Globals.items[newGearID].Id;
+                            break;
+
+                        case itemType.Wrist:
+                            gear[5] = Globals.items[newGearID].Id;
+                            break;
+
+                        case itemType.Gloves:
+                            gear[6] = Globals.items[newGearID].Id;
+                            break;
+
+                        case itemType.Belt:
+                            gear[7] = Globals.items[newGearID].Id;
+                            break;
+
+                        case itemType.Pants:
+                            gear[8] = Globals.items[newGearID].Id;
+                            break;
+
+                        case itemType.Boots:
+                            gear[9] = Globals.items[newGearID].Id;
+                            break;
+
+                        case itemType.Ring:
+                            if (equipRingFirstSlot) gear[10] = Globals.items[newGearID].Id;
+                            else gear[11] = Globals.items[newGearID].Id;
+                            equipRingFirstSlot = !equipRingFirstSlot;
+                            break;
+
+                        case itemType.Trinket:
+                            if (equipTrinketFirstSlot) gear[12] = Globals.items[newGearID].Id;
+                            else gear[13] = Globals.items[newGearID].Id;
+                            equipTrinketFirstSlot = !equipTrinketFirstSlot;
+                            break;
+
+                        default:
+                            throw new Exception("Gear has an invalid/missing type.");
+                    }
+                }
+                else throw new Exception("This trinket requires level " + Globals.items[newGearID].Requirement + "to equip. " +
+                    "Player's current level is" + level + ".");
+            }
+            else throw new Exception("Gear ID could not be found.");
+        }
+
+        public void UnequipGear (int gearSlot)
+        {
+            /***************************************************************************
+             * Unequips the gear at the desired slot and moves it into the inventory.
+             * 
+             * If the inventory is at capacity, throw an exception.
+             * 
+             * Parameters:
+             * @gearSlot = Desired gear slot to move to inventory.
+             **************************************************************************/
+
+            if (inventory.Capacity > Constants.MAX_INVENTORY_SIZE) throw new Exception("Can't unequip gear. All inventory slots are full.");
+            else
+            {
+                if (gear[gearSlot] == 0) return;//don't do anything if gear slot is empty
+
+                inventory.Add(gear[gearSlot]);
+                gear[gearSlot] = 0;//clear gear slot when finished
+            }
         }
     }
 }
