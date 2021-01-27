@@ -7,10 +7,6 @@ namespace Assignment1
 {
 	public class GameFile
 	{
-		//public variables
-		Dictionary<uint, Item> items = new Dictionary<uint, Item>();
-		Dictionary<uint, string> guilds = new Dictionary<uint, string>();
-		Dictionary<uint, Player> characters = new Dictionary<uint, Player>();
 		//constructor
 		public GameFile()
 		{
@@ -40,7 +36,7 @@ namespace Assignment1
                         string[] subs = line.Split('\t');
 						id = UInt32.Parse(subs[0]);
 						name = subs[1];
-						guilds.Add(id, name);
+						Globals.guilds.Add(id, name);
                     }
 
 				}
@@ -68,7 +64,7 @@ namespace Assignment1
 						stamina = UInt32.Parse(subs[4]);
 						requirement = UInt32.Parse(subs[5]);
 						flavor = subs[6];
-						items.Add(id, new Item(id, name, type, ilvl, primary, stamina, requirement, flavor));
+						Globals.items.Add(id, new Item(id, name, type, ilvl, primary, stamina, requirement, flavor));
 					}
 				}
 				//importing Players now
@@ -97,7 +93,7 @@ namespace Assignment1
                         {
 							inventory[i - 6] = UInt32.Parse(subs[i]);
                         }
-						characters.Add(id, new Player(id, name, race, level, exp, guildID, inventory));
+						Globals.characters.Add(id, new Player(id, name, (Race?)race, level, exp, guildID, inventory));
 					}
 				}
 			}
@@ -115,7 +111,7 @@ namespace Assignment1
 		 ****************************************************************/
 		public void PrintItems()
         {
-			foreach(KeyValuePair<uint, Item> item in items)
+			foreach(KeyValuePair<uint, Item> item in Globals.items)
             {
 				Console.WriteLine(item.ToString());
             }
@@ -128,7 +124,7 @@ namespace Assignment1
 		*****************************************************************/
 		public void PrintGuild()
         {
-			foreach(KeyValuePair<uint, string> guild in guilds)
+			foreach(KeyValuePair<uint, string> guild in Globals.guilds)
             {
 				Console.WriteLine(guild.Value);
             }
@@ -141,7 +137,7 @@ namespace Assignment1
 		 ****************************************************************/
 		public void PrintPlayer()
         {
-			foreach(KeyValuePair<uint, Player> character in characters)
+			foreach(KeyValuePair<uint, Player> character in Globals.characters)
             {
 				Console.WriteLine(character.ToString());
             }
