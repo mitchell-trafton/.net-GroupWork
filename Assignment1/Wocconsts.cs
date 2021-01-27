@@ -1,12 +1,12 @@
 ﻿using System;
-namespace Woc_consts 
+namespace Assignment1
 {
     public enum itemType
     {
-    Helmet, Neck, Shoulders, Back, Chest, Wrist,
-    Gloves, Belt, Pants, Boots, Ring, Trinket, None
+        Helmet, Neck, Shoulders, Back, Chest, Wrist,
+        Gloves, Belt, Pants, Boots, Ring, Trinket, None
     };
-    public enum Race { Orc, Troll, Tauren, Forsaken};
+    public enum Race { Orc, Troll, Tauren, Forsaken };
 
     static class Constants
     {
@@ -17,4 +17,5 @@ namespace Woc_consts
         public static uint GEAR_SLOTS = 14;
         public static uint MAX_INVENTORY_SIZE = 20;
     }
+
 }

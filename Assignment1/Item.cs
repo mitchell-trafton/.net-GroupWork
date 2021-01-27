@@ -1,10 +1,8 @@
 ﻿using System;
-using Woc_consts;
-namespace Woc_item
+namespace Assignment1
 {
     class Item : IComparable
     {
-        //constants
         // private attributes
         private uint id; //identifer for the item 
         private string name; // item name
