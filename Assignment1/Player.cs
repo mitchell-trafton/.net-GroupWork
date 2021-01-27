@@ -42,8 +42,9 @@ namespace Assignment1
             level = Level;
             exp = Exp;
             guildID = GuildID;
-            gear = new List<uint>(Gear);
-            inventory = new List<uint>(Inventory);
+            gear = Gear;
+            if (Inventory != null) inventory = new List<uint>(Inventory);
+            else inventory = null;
         }
 
         ///prvate attributes
@@ -53,7 +54,7 @@ namespace Assignment1
         private uint level;
         private uint exp;
         private uint? guildID;
-        private List<uint>? gear;
+        private uint[] gear = new uint[Constants.GEAR_SLOTS];
         private List<uint>? inventory;
 
         ///public attributes
@@ -93,7 +94,13 @@ namespace Assignment1
         public uint Exp
         {
             get { return exp; }
-            set { Add_Exp(value); }
+            set
+            {
+                //whenever Exp is set equal to a value, that value is added to exp
+                exp += value;
+
+                LevelUp();//call LevelUp() function to increase the current level if appropriate
+            }
         }
 
         public uint? GuildID
@@ -104,28 +111,49 @@ namespace Assignment1
 
         public uint this[int index]
         {
-            get {
-                return gear[index]; }
-            set
-            {
-                if (gear == null) gear = new List<uint>();
-                //before moving value to index, extend list length if needed
-                while (gear.Count < (index + 1)) gear.Add(0);
-
-                gear[index] = value;
-            }
+            get { return gear[index]; }
+            set { gear[index] = value; }
         }
 
         ///functions/interfaces
 
-        private void Add_Exp(uint expAmt)
+        private void LevelUp()
         {
-
+            /***********************************************************************
+             * Levels up the player if there is sufficient exp.
+             * 
+             * If there is enough exp to level up (>= current level * 1000), 
+             * subtract that amount from current exp, increase current level, 
+             * and call function again to see if further leveling up should occur.
+             **********************************************************************/
+            if (exp >= (level * 1000))
+            {
+                exp -= level * 1000;
+                level++;
+                LevelUp();
+            }
         }
 
         public int CompareTo(object obj)
         {
-            return name.CompareTo(obj);
+            /****************************************
+             * CompareTo function for IComparable interface. 
+             * 
+             * Compares this Player object to another using
+             * the 'name' attribute.
+             ****************************************/
+
+            if (obj == null || name == null) throw new ArgumentNullException();
+
+            Player Obj = obj as Player;
+
+            if (Obj.Name == null) throw new ArgumentNullException();
+            else return name.CompareTo(Obj.Name);
+        }
+
+        public void EquipGear(uint newGearID)
+        {
+
         }
     }
 }
