@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Bandit\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Bandit\\.nuget\\packages"
+    ]
+  }
+}
