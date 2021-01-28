@@ -196,26 +196,127 @@ namespace Assignment1
 					return (int)translate[selection];
                 }
 			}
-			catch
+			catch(Exception e)
             {
 				Console.WriteLine("Invalid entry, returning to Menu with no changes");
             }
 			return -1;
 		}
 
+		public int SelectGuild()
+		{
+			int selection = 0;//used for user selection
+			string userIn;//used to catch user input
+			Dictionary<int, uint> translate = new Dictionary<int, uint>();//used to match user input to the key of the character for selection
+			foreach (KeyValuePair<uint, string> guild in Globals.guilds)
+			{
+				Console.WriteLine(selection + " " + guild.Value);
+				translate.Add(selection, guild.Key);// match the character key with a shorthand user selection
+				selection++;
+			}
+			Console.WriteLine("Please select the guild");
+			userIn = Console.ReadLine();
+			//try block for input scrubbing, if we catch an exception then we kick back out to menu with no changes done
+			try
+			{
+				selection = Int32.Parse(userIn);
+				if (selection < 0 || selection >= Globals.guilds.Count)
+				{
+					Console.WriteLine("Invalid entry, returning to Menu with no changes");
+				}
+				else
+				{
+					return (int)translate[selection];
+				}
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine("Invalid entry, returning to Menu with no changes");
+			}
+			return -1;
+		}
+
+		public int SelectGear()
+		{
+			int selection = 0;//used for user selection
+			string userIn;//used to catch user input
+			Dictionary<int, uint> translate = new Dictionary<int, uint>();//used to match user input to the key of the character for selection
+			foreach (KeyValuePair<uint, Item> item in Globals.items)
+			{
+				Console.WriteLine(selection + " " + item.Value.Name);
+				translate.Add(selection, item.Key);// match the character key with a shorthand user selection
+				selection++;
+			}
+			Console.WriteLine("Please select the Gear");
+			userIn = Console.ReadLine();
+			//try block for input scrubbing, if we catch an exception then we kick back out to menu with no changes done
+			try
+			{
+				selection = Int32.Parse(userIn);
+				if (selection < 0 || selection >= Globals.items.Count)
+				{
+					Console.WriteLine("Invalid entry, returning to Menu with no changes");
+				}
+				else
+				{
+					return (int)translate[selection];
+				}
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine("Invalid entry, returning to Menu with no changes");
+			}
+			return -1;
+		}
+
 		/************************************************************************
-		 * public void LeaveGuild
-		 * input: uint player id in the character dictionary
-		 * this code sets the guild ID to zero, effectively removing a player 
-		 * from a guild.
-		 * *********************************************************************/
+		* public void LeaveGuild
+		* input: uint player id in the character dictionary
+		* this code sets the guild ID to zero, effectively removing a player 
+		* from a guild.
+		* *********************************************************************/
 		public void LeaveGuild(uint pid)
-        {
+		{
 			Globals.characters[pid].GuildID = 0;
 			Console.WriteLine(Globals.characters[pid].Name + " Is no longer in a guild.");
+		}
+
+		/************************************************************************
+		 * public void JoinGuild
+		 * input: uint pid(player ID), gid(guild ID)
+		 * This assigns the character's guildID field to the one the user specified
+		 * and prints a confirmation message
+		 * *********************************************************************/
+		public void JoinGuild(uint pid, uint gid)
+        {
+			Globals.characters[pid].GuildID = gid;
+			Console.WriteLine(Globals.characters[pid].Name + " is now a member of " + Globals.guilds[gid]);
         }
+		/**********************************************************************
+		 * public void AddExp
+		 * input uint pid (Player ID)
+		 * this method prompts the user for a value of experience to assign
+		 * to a player, and then returns a confirmation of the player's level
+		 * and current experience
+		 * *********************************************************************/
+		public void AddExp(uint pid)
+        {
+			int xp;
+			Console.WriteLine("How much experience would you like to award?");
+            try
+            {
+				xp = Int32.Parse(Console.ReadLine());// read what the user wrote
+				if(xp > 0)
+                {
+					Globals.characters[pid].Exp = (uint)xp;
+					Console.WriteLine(Globals.characters[pid].Name + " is level: " + Globals.characters[pid].Level + " And has: " + Globals.characters[pid].Exp + "Experience");
+                }
+            }
+			catch(Exception e)
+            {
 
-
+            }
+        }
 
 	}
 }
