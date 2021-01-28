@@ -5,6 +5,11 @@ namespace Assignment1
 	{
 		static void Main(string[] args)
 		{
+			/*****************************************
+			 * Main function for program.
+			 * 
+			 * Acts as menu loop.
+			 *****************************************/
 
 			Console.WriteLine("Welcome to the World of ConflictCraft: Testing Enviornment!");
 			GameFile game = new GameFile();

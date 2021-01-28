@@ -88,6 +88,12 @@ namespace Assignment1
         }
         public Item(uint tid, string tname, int ttype, uint tlvl, uint tprimary, uint tstamina, uint trequirement, string tflavor)
         {
+            /****************************************
+             * Default constructor.
+             * 
+             * Assigns values to class's attributes.
+             ****************************************/
+
             id = tid;
             name = tname;
             type = (itemType)ttype;
@@ -97,26 +103,33 @@ namespace Assignment1
             requirement = trequirement;
             flavor = tflavor;
         }
-        /***************************************************
-        * IComparable interface, compareTo
-        * input: Item object
-        * output: An int value representing the order of the 
-        * items sorting by their string name variable
-        ****************************************************/
+        
         int IComparable.CompareTo(object obj)
         {
+            /***************************************************
+            * IComparable interface, compareTo
+            * 
+            * Parameters:
+            * @input = Item object
+            * 
+            * Output:
+            * An int value representing the order of the 
+            * items sorting by their string name variable
+            ****************************************************/
+
             Item other = (Item)obj;
 
             return String.Compare(name, other.name);
         }
-        /***************************************************
-         * override ToString 
-         * Prints out the item type, name, level requirement
-         * and the flavor text on a second line.
-         * 
-         **************************************************/
+        
         public override string ToString()
         {
+            /***************************************************
+             * override ToString 
+             * Prints out the item type, name, level requirement
+             * and the flavor text on a second line.
+             * 
+             **************************************************/
             return "(" + type + ") " + name + "|" + ilvl + "|" + "\n" +"   " + flavor;
         }
 
