@@ -25,23 +25,32 @@ namespace Assignment1
 			try
 			{
 				//loading in the guilds into our Dictionary for use
-				using (StreamReader inGuild = new StreamReader("./bin/init/guilds.txt"))
-                {
-                    string line;
+				using (StreamReader inGuild = new StreamReader("bin/init/guilds.txt"))
+				{
+					string line;
 					uint id;
 					string name;
 					//we go line by line and begin creating our guilds from the file
 					while ((line = inGuild.ReadLine()) != null)
-                    {
-                        string[] subs = line.Split('\t');
+					{
+						string[] subs = line.Split('\t');
 						id = UInt32.Parse(subs[0]);
 						name = subs[1];
 						Globals.guilds.Add(id, name);
-                    }
+					}
 
 				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("guilds.txt could not be read");
+				Console.WriteLine(e.Message);
+			}
+
+			try
+			{
 				//loading in the items into our Dictionary for use
-				using (StreamReader inItems = new StreamReader("./bin/init/equipment.txt"))
+				using (StreamReader inItems = new StreamReader("bin/init/equipment.txt"))
 				{
 					string line;
 					uint id;
@@ -58,17 +67,25 @@ namespace Assignment1
 						string[] subs = line.Split('\t');
 						id = UInt32.Parse(subs[0]);
 						name = subs[1];
-						type = Int32.Parse(subs[1]);
-						ilvl = UInt32.Parse(subs[2]);
-						primary = UInt32.Parse(subs[3]);
-						stamina = UInt32.Parse(subs[4]);
-						requirement = UInt32.Parse(subs[5]);
-						flavor = subs[6];
+						type = Int32.Parse(subs[2]);
+						ilvl = UInt32.Parse(subs[3]);
+						primary = UInt32.Parse(subs[4]);
+						stamina = UInt32.Parse(subs[5]);
+						requirement = UInt32.Parse(subs[6]);
+						flavor = subs[7];
 						Globals.items.Add(id, new Item(id, name, type, ilvl, primary, stamina, requirement, flavor));
 					}
 				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("equipment.txt could not be read");
+				Console.WriteLine(e.Message);
+			}
+			try
+			{ 
 				//importing Players now
-				using (StreamReader inCharacter = new StreamReader("./bin/init/Characters.txt"))
+				using (StreamReader inCharacter = new StreamReader("bin/init/players.txt"))
 				{
 					string line;
 					uint id;
@@ -99,7 +116,7 @@ namespace Assignment1
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("A file could not be read");
+				Console.WriteLine("Characters.txt could not be read");
 				Console.WriteLine(e.Message);
 			}
 
@@ -141,7 +158,7 @@ namespace Assignment1
             {
 				Console.WriteLine(character.ToString());
             }
-			Console.WriteLine("End of Guilds");
+			Console.WriteLine("End of players");
 
         }
 	}
