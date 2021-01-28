@@ -241,7 +241,7 @@ namespace Assignment1
              * @gearSlot = Desired gear slot to move to inventory.
              **************************************************************************/
 
-            if (inventory.Capacity > Constants.MAX_INVENTORY_SIZE) throw new Exception("Can't unequip gear. All inventory slots are full.");
+            if (inventory.Capacity >= Constants.MAX_INVENTORY_SIZE) throw new Exception("Can't unequip gear. All inventory slots are full.");
             else
             {
                 if (gear[gearSlot] == 0) return;//don't do anything if gear slot is empty
@@ -249,6 +249,59 @@ namespace Assignment1
                 inventory.Add(gear[gearSlot]);
                 gear[gearSlot] = 0;//clear gear slot when finished
             }
+        }
+
+        public void PrintGearList()
+        {
+            /****************************************************************
+             * Prints player info along with the contents of the gear slots.
+             ****************************************************************/
+
+            //print player info
+            Console.WriteLine(ToString());
+
+            //print info on gear slots
+            itemType printGear = itemType.Helmet; //stores item type to print for each slot
+            bool ringPrinted = false, trinketPrinted = false; //true when first ring/trinked slot has been printed
+            for (int gearSlot = 0; gearSlot < Constants.GEAR_SLOTS; gearSlot++)
+            {
+                if (gear[gearSlot] == 0)
+                {
+                    Console.WriteLine(Enum.GetName(typeof(itemType), printGear) + ": empty");
+                }
+                else
+                {
+                    Console.WriteLine("(" + Enum.GetName(typeof(itemType), printGear) + ") " +
+                        Globals.items[gear[gearSlot]].Name + " |" + Globals.items[gear[gearSlot]].Stamina +
+                        "| --" + Globals.items[gear[gearSlot]].Requirement + "--");
+
+                    Console.WriteLine("\t\"" + Globals.items[gear[gearSlot]].Flavor + "\"");
+                }
+
+                //don't increase printGear for first time printing ring/gear slot
+                if (printGear == itemType.Ring && !ringPrinted) { ringPrinted = true; continue; }
+                if (printGear == itemType.Trinket && !trinketPrinted) { trinketPrinted = true; continue; }
+
+                printGear++;
+            }
+        }
+
+        public override string ToString()
+        {
+            /************************************************************************************
+             * Returns a string containing player's name, race, level, and guild (if applicable).
+             ************************************************************************************/
+
+            string returnInfo;//information to return
+
+            returnInfo = "\nName: " + name + "\t\tRace: " + race + "\t\tLevel: " + level + "\t\tGuild: ";
+
+            if (guildID != null && guildID != 0)//only print guild if there is a valid ID availible 
+                returnInfo += Globals.guilds[(uint)guildID];
+            else if (!Globals.guilds.ContainsKey((uint)guildID)) returnInfo += "[error: guild ID not recognized]";
+            else returnInfo += "n/a";
+
+            return returnInfo;
         }
     }
 }
