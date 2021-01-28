@@ -22,9 +22,61 @@ namespace Assignment1
 				Console.WriteLine("9.) Award Experience");
 				Console.WriteLine("10.) Quit");
 				string user = Console.ReadLine();
-				if (Choice(user) == 10)
-				{
+				user = user.ToLower(); // lowercase the string for input handling
+				if(user.Equals("t")) // hidden option for comparison testing
+                {
+
+                }
+				else if(user.Equals("q") || user.Equals("quit") || user.Equals("10"))
+                {
 					break;
+                }
+                else 
+				{
+					int choice;
+					try
+					{
+						choice = Int32.Parse(user);
+						switch(choice)
+                        {
+                            case 1:
+								game.PrintPlayer();
+								break;
+							case 2:
+								game.PrintGuild();
+								break;
+							case 3:
+								game.PrintItems();
+								break;
+							case 4:
+
+								break;
+							case 5:
+
+								break;
+							case 6:
+
+								break;
+							case 7:
+
+								break;
+							case 8:
+
+								break;
+							case 9:
+
+								break;
+							default:
+								Console.WriteLine("Input was out of bounds, please select a valid input.");
+								break;
+                        }
+
+					}
+					catch (FormatException e)
+					{
+						Console.WriteLine("Invalid input, input must only be a number.");
+					}
+
 				}
 			}
 			Console.WriteLine("Goodbye!");
