@@ -1,9 +1,9 @@
 ﻿using System;
 namespace Assignment1
 {
-	public class menu
+	public class Menu
 	{
-		static void main(string[] args)
+		static void Main(string[] args)
 		{
 
 			Console.WriteLine("Welcome to the World of ConflictCraft: Testing Enviornment!");
