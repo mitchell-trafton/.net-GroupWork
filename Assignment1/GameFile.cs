@@ -161,5 +161,61 @@ namespace Assignment1
 			Console.WriteLine("End of players");
 
         }
+		/***************************************************************************
+		 * public int SelectPlayer()
+		 * returns: int version of a Dictionary Player ID, or -1 for invalid entry
+		 * This method lists out all the available characters within the dictionary
+		 * for a user to choose from, and then passes that choice back to menu, where
+		 * it can then pass it further to another method for use. 
+		 * 
+		 * 
+		 *************************************************************************/
+		public int SelectPlayer()
+        {
+			int selection = 0;//used for user selection
+			string userIn;//used to catch user input
+			Dictionary<int, uint> translate = new Dictionary<int, uint>();//used to match user input to the key of the character for selection
+			foreach(KeyValuePair<uint, Player> character in Globals.characters)
+            {
+				Console.WriteLine(selection + " " + character.Value.Name);
+				translate.Add(selection, character.Key);// match the character key with a shorthand user selection
+				selection++;
+			}
+			Console.WriteLine("Please select the Player you would like to have leave their guild:");
+			userIn = Console.ReadLine();
+			//try block for input scrubbing, if we catch an exception then we kick back out to menu with no changes done
+            try 
+			{
+				selection = Int32.Parse(userIn);
+				if(selection < 0 || selection >= Globals.characters.Count)
+                {
+					Console.WriteLine("Invalid entry, returning to Menu with no changes");
+                }
+                else
+                {
+					return (int)translate[selection];
+                }
+			}
+			catch
+            {
+				Console.WriteLine("Invalid entry, returning to Menu with no changes");
+            }
+			return -1;
+		}
+
+		/************************************************************************
+		 * public void LeaveGuild
+		 * input: uint player id in the character dictionary
+		 * this code sets the guild ID to zero, effectively removing a player 
+		 * from a guild.
+		 * *********************************************************************/
+		public void LeaveGuild(uint pid)
+        {
+			Globals.characters[pid].GuildID = 0;
+			Console.WriteLine(Globals.characters[pid].Name + " Is no longer in a guild.");
+        }
+
+
+
 	}
 }
