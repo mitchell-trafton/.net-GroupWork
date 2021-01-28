@@ -81,22 +81,6 @@ namespace Assignment1
 			}
 			Console.WriteLine("Goodbye!");
 		}
-		int Choice(string input)
-		{
-			int userChoice = -1;
-			//trycatch for making sure the input is clean
-			try
-			{
-				userChoice = Int32.Parse(input);
-			}
-			catch (FormatException e)
-			{
-				Console.WriteLine("Invalid input, input must only be a number.");
-				return -1;
-			}
-			if (userChoice == 10) return userChoice; // quit option
-			return 0;
-		}
 
 	}
 }
