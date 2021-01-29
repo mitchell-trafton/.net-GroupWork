@@ -4,7 +4,7 @@ using System;
 
 namespace Assignment1
 {
-    public class Player:IComparable
+    public class Player : IComparable
     {
         ///constructors
         public Player()
@@ -39,6 +39,7 @@ namespace Assignment1
             exp = Exp;
             guildID = GuildID;
             if (Gear == null) gear = new uint[Constants.GEAR_SLOTS];
+            else gear = Gear;
             if (Inventory != null) inventory = new List<uint>(Inventory);
             else inventory = null;
         }
@@ -230,7 +231,7 @@ namespace Assignment1
             else throw new Exception("Gear ID could not be found.");
         }
 
-        public void UnequipGear (int gearSlot)
+        public void UnequipGear(int gearSlot)
         {
             /***************************************************************************
              * Unequips the gear at the desired slot and moves it into the inventory.
@@ -241,7 +242,7 @@ namespace Assignment1
              * @gearSlot = Desired gear slot to move to inventory.
              **************************************************************************/
 
-            if (inventory.Capacity >= Constants.MAX_INVENTORY_SIZE) throw new Exception("Can't unequip gear. All inventory slots are full.");
+            if (inventory.Count >= Constants.MAX_INVENTORY_SIZE) throw new Exception("Can't unequip gear. All inventory slots are full.");
             else
             {
                 if (gear[gearSlot] == 0) return;//don't do anything if gear slot is empty
@@ -267,11 +268,11 @@ namespace Assignment1
             {
                 if (gear[gearSlot] == 0)
                 {
-                    Console.WriteLine(Enum.GetName(typeof(itemType), printGear) + ": empty");
+                    Console.WriteLine(gearSlot + " | " +Enum.GetName(typeof(itemType), printGear) + ": empty");
                 }
                 else
                 {
-                    Console.WriteLine("(" + Enum.GetName(typeof(itemType), printGear) + ") " +
+                    Console.WriteLine(gearSlot + " | (" + Enum.GetName(typeof(itemType), printGear) + ") " +
                         Globals.items[gear[gearSlot]].Name + " |" + Globals.items[gear[gearSlot]].Stamina +
                         "| --" + Globals.items[gear[gearSlot]].Requirement + "--");
 

@@ -15,7 +15,7 @@ namespace Assignment1
 			GameFile game = new GameFile();
 			while (true)
 			{
-				Console.WriteLine("Please select an option from the list below:");
+				Console.WriteLine("\n \n Please select an option from the list below:");
 				Console.WriteLine("1.) Print All Players");
 				Console.WriteLine("2.) Print All Guilds");
 				Console.WriteLine("3.) Print All Gear");
@@ -30,7 +30,7 @@ namespace Assignment1
 				user = user.ToLower(); // lowercase the string for input handling
 				if (user.Equals("t")) // hidden option for comparison testing
 				{
-
+					game.Sorting();
 				}
 				else if (user.Equals("q") || user.Equals("quit") || user.Equals("10"))
 				{
@@ -42,9 +42,9 @@ namespace Assignment1
 					try
 					{
 						choice = Int32.Parse(user);
-						int pid;//player id
-						int iid;//item/gear id
-						int gid;// guild id
+						int pid = -1;//player id
+						int iid = -1;//item/gear id
+						int gid = -1;// guild id
 						switch (choice)
 						{
 							case 1:
@@ -58,11 +58,11 @@ namespace Assignment1
 								break;
 							case 4:
 								pid = game.SelectPlayer();
-								if(pid > -1) Globals.characters[(uint)pid].PrintGearList();
+								if (pid > -1) Globals.characters[(uint)pid].PrintGearList();
 								break;
 							case 5:
 								pid = game.SelectPlayer();
-								if(pid > -1) game.LeaveGuild((uint)pid); // if we don't have an error, leave guild, otherwise return to menu
+								if (pid > -1) game.LeaveGuild((uint)pid); // if we don't have an error, leave guild, otherwise return to menu
 								break;
 							case 6:
 								pid = game.SelectPlayer();
@@ -70,10 +70,21 @@ namespace Assignment1
 								if (gid > -1 && pid > -1) game.JoinGuild((uint)pid, (uint)gid); // if both identifiers are valid, send them to JoinGuild
 								break;
 							case 7:
-
+								pid = game.SelectPlayer();
+								iid = game.SelectGear();
+								if (iid > -1 && pid > -1) Globals.characters[(uint)pid].EquipGear((uint)iid);
 								break;
 							case 8:
-
+								pid = game.SelectPlayer();
+								if (pid > -1)
+								{
+									Globals.characters[(uint)pid].PrintGearList();
+									Console.WriteLine("Please select the slot you would like to unequipt:");
+									user = Console.ReadLine();
+									iid = Int32.Parse(user);
+									if (iid > -1 || iid < Constants.GEAR_SLOTS) Globals.characters[(uint)pid].UnequipGear(iid);
+									else Console.WriteLine("Invalid choice, returning to menu");
+								}
 								break;
 							case 9:
 								pid = game.SelectPlayer();
@@ -85,8 +96,9 @@ namespace Assignment1
 						}
 
 					}
-					catch (FormatException e)
+					catch (Exception e)
 					{
+						Console.WriteLine(e.Message);
 						Console.WriteLine("Invalid input, input must only be a number.");
 					}
 

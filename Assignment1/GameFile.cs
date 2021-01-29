@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Assignment1
@@ -75,6 +76,7 @@ namespace Assignment1
 						flavor = subs[7];
 						Globals.items.Add(id, new Item(id, name, type, ilvl, primary, stamina, requirement, flavor));
 					}
+					Globals.items.Add(0, new Item(0, "N/A", 13, 0, 0, 0, 0, "N/A")); // handles no item available
 				}
 			}
 			catch (Exception e)
@@ -94,7 +96,8 @@ namespace Assignment1
 					uint level;
 					uint exp;
 					uint? guildID;
-					uint[] inventory;
+					uint[] gearSlots;
+					uint[] inventory = new uint[Constants.MAX_INVENTORY_SIZE];
 
 					while ((line = inCharacter.ReadLine()) != null)
 					{
@@ -105,12 +108,12 @@ namespace Assignment1
 						level = UInt32.Parse(subs[3]);
 						exp = UInt32.Parse(subs[4]);
 						guildID = UInt32.Parse(subs[5]);
-						inventory = new uint[subs.Length - 6];
-						for(int i = 6; i<subs.Length; i++)//the rest of the file is inventory, this will record the IDs of player inventory and store them
+						gearSlots = new uint[subs.Length - 6];
+						for(int i = 6; i<subs.Length-1; i++)//the rest of the file is inventory, this will record the IDs of player inventory and store them
                         {
-							inventory[i - 6] = UInt32.Parse(subs[i]);
+							gearSlots[i-6] = UInt32.Parse(subs[i]);
                         }
-						Globals.characters.Add(id, new Player(id, name, (Race?)race, level, exp, guildID, inventory));
+						Globals.characters.Add(id, new Player(id, name, (Race?)race, level, exp, guildID, gearSlots, inventory));
 					}
 				}
 			}
@@ -181,7 +184,7 @@ namespace Assignment1
 				translate.Add(selection, character.Key);// match the character key with a shorthand user selection
 				selection++;
 			}
-			Console.WriteLine("Please select the Player you would like to have leave their guild:");
+			Console.WriteLine("Please select the Player: ");
 			userIn = Console.ReadLine();
 			//try block for input scrubbing, if we catch an exception then we kick back out to menu with no changes done
             try 
@@ -202,7 +205,15 @@ namespace Assignment1
             }
 			return -1;
 		}
-
+		/***********************************************************************
+		 * public int SelectGuild
+		 * input: none
+		 * returns: -1 on failure or the ID of a guild cast as an int
+		 * The user is given numerical options to select which guild they'd like
+		 * to use in whatever function is called. this is passed back.
+		 * 
+		 * 
+		 **********************************************************************/
 		public int SelectGuild()
 		{
 			int selection = 0;//used for user selection
@@ -235,7 +246,15 @@ namespace Assignment1
 			}
 			return -1;
 		}
-
+		/*************************************************************************
+		 * public int selectGear
+		 * input: none
+		 * returns: -1 on failure or GearID cast to an int
+		 * this method lists all the gear available for the user to select from using 
+		 * a menu choice and then returns the selected gear's id to menu
+		 * 
+		 * 
+		 *************************************************************************/
 		public int SelectGear()
 		{
 			int selection = 0;//used for user selection
@@ -315,6 +334,38 @@ namespace Assignment1
 			catch(Exception e)
             {
 
+            }
+        }
+		/**********************************************************************
+		 * Public Void Sorting()
+		 * no inputs
+		 * This function places both items and players into array lists, sorts them
+		 * using the overloaded Icomparables that are written, and prints them out
+		 * 
+		 **********************************************************************/
+		public void Sorting()
+        {
+			ArrayList itemList = new ArrayList();
+			ArrayList playerList = new ArrayList();
+			foreach(KeyValuePair<uint, Item> item in Globals.items)
+            {
+				itemList.Add(item.Value);
+            }
+			foreach(KeyValuePair<uint, Player> player in Globals.characters)
+            {
+				playerList.Add(player.Value);
+
+            }
+			itemList.Sort();
+			playerList.Sort();
+
+			foreach(Item item in itemList)
+            {
+				Console.WriteLine(item.ToString());
+            }
+			foreach(Player player in playerList)
+            {
+				Console.WriteLine(player.ToString());
             }
         }
 

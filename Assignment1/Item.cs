@@ -103,7 +103,7 @@ namespace Assignment1
             requirement = trequirement;
             flavor = tflavor;
         }
-        
+
         int IComparable.CompareTo(object obj)
         {
             /***************************************************
@@ -121,7 +121,7 @@ namespace Assignment1
 
             return String.Compare(name, other.name);
         }
-        
+
         public override string ToString()
         {
             /***************************************************
@@ -130,7 +130,7 @@ namespace Assignment1
              * and the flavor text on a second line.
              * 
              **************************************************/
-            return "(" + type + ") " + name + "|" + ilvl + "|" + "\n" +"   " + flavor;
+            return "(" + type + ") " + name + "|" + ilvl + "|" + "\n" + "   " + flavor;
         }
 
     }
