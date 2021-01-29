@@ -2,6 +2,11 @@
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+/************************************************************
+ * Assignment 1
+ * Programmers: Robert Tyler Trotter z1802019
+ *              Mitchell Trafton     z1831076
+ ***********************************************************/
 
 namespace Assignment1
 
